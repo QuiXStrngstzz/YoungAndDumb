@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+        string name [3];
+        int c;
+
+        cout << " Kinsay nakuyapan?\n";
+
+        for (c = 0; c < 3; c++)
+        {
+                cout << char (65+c) << ". ";
+                cin >> name [c];
+        }
+
+        for (c = 0; c < 3; c++)
+        {
+           if (name [c] == "casey")
+              {
+                  cout << " Ang Nakuyapan kay si " << name [c];
+                   return 0;
+              }
+        }
+
+        cout << " Wala sa ilaha";
+        return 0;
+}
