@@ -1,0 +1,49 @@
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+
+  int i, a, c, z;
+
+  for (i = 0; i < 10; i++)
+  {
+    for (a = i; a < 10; a++)
+    {
+       cout << " ";
+    }
+
+    for (a = 0; a < i+1; a++)
+    {
+       cout << "*";
+    }
+
+    for (a = 1; a < i+1; a++)
+    {
+       cout << "*";
+    }
+       cout << endl;
+  }
+
+  for (c = 0; c < 10; c++)
+  {
+     for (z = 0; z < c+1; z++)
+    {
+       cout << " ";
+    }
+    
+    for (z = c; z < 10; z++ )
+    {
+      cout << "*";
+    }
+
+    for (z = c; z < 9; z++ )
+    {
+      cout << "*";
+    }
+    cout << endl;
+  }
+
+  return 0;
+}
