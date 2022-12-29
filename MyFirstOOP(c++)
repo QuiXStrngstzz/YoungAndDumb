@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+class player
+{
+    public:
+    int level;
+    int hp;
+    string name;
+
+    player (int cLevel, int cHp, string cName)
+    {
+      level = cLevel;
+      hp    = cHp;
+      name  = cName;
+    }
+};
+
+int main ()
+{
+  player One (25, 900, "casey");
+
+  cout << One.level << endl
+       << One.hp    << endl
+       << One.name  << endl;
+  return 0;
+}
