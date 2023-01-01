@@ -1,0 +1,20 @@
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+	int num;
+	
+	cout << "Enter A Number: ";
+	cin  >> num;
+	
+	cout << "The Multiplacation table of " << num << " is:\n";
+	
+	for (int i = 1; i <= 10; i++)
+	{
+		i * 5;
+		cout << num << " * " << i << " = " << i*5 << endl;
+	}	
+	return 0;
+}
