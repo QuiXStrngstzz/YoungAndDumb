@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+int main ()
+{
+	double num1, num2;
+	char op, x = '*';
+	
+	cout << "\033[1;65H FirsT Calculator I've Made\n";
+	for (int c = 1; c > 0; c++)
+	{
+		cin  >> num1;
+		cin  >> op;
+		cin  >> num2;
+		
+		switch (op)
+		{
+			case '+': cout << num1 + num2 << endl << endl;
+			break;
+			
+			case '-': cout << num1 - num2 << endl << endl;
+			break;
+			
+			case 'x': cout << num1 * num2 << endl << endl;
+			break;
+			
+			case '/': cout << num1 / num2 << endl << endl;
+		}
+   }
+	return 0;
+}
