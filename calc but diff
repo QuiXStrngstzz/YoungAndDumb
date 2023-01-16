@@ -1,0 +1,34 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main ()
+{
+    system("cls");
+	double num1, num2;
+	char op, x = '*';
+
+	cout << "\033[1;50H FirsT Calculator I've Made\n";
+	for (int c = 1; c > 0; c++)
+	{
+		cin  >> num1 >> op >> num2;
+	
+		switch (op)
+		{
+			case '+': cout << num1 + num2;
+			break;
+
+			case '-': cout << num1 - num2;
+			break;
+
+			case 'x': cout << num1 * num2;
+			break;
+
+			case '/': cout << num1 / num2;
+
+            case '^': cout << pow(num1,num2);
+            break;
+		}
+   }
+	return 0;
+}
