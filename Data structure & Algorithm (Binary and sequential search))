@@ -1,0 +1,331 @@
+#include <iostream>
+#include <conio.h>
+#include <windows.h>
+#include <vector>
+using namespace std;
+
+const int max_Weeks  = 100;
+const int days       = 7;
+int arr[max_Weeks][days];
+
+void line ()
+{
+    cout << "\n***********************************************\n";
+}
+
+void input_steps(int arr[][days], int weeks)
+{
+    for (int c = 0; c < weeks; c++)
+    {
+        line ();
+
+        for (int a = 0; a < days; a++)
+        {
+            cout << "Enput your steps for day " << a+1 << " weeks " << c+1 <<": ";
+            cin  >> arr[c][a];
+        }
+            cout << "\n";
+    }
+}
+
+int total_steps(int arr[][days], int weeks)
+{
+
+    int Total_steps = 0;
+
+    for (int c = 0; c < weeks; c++)
+    {
+        for (int a = 0; a < days; a++)
+        {
+            Total_steps += arr[c][a];
+        }
+    }
+
+    return Total_steps;
+}
+
+int total_evenSteps(int arr[][days], int weeks)
+{
+    int evenSteps = 0;
+
+    for (int c = 0; c < weeks; c++)
+    {
+        for (int a = 0; a < days; a++)
+        {
+            if (arr[c][a] % 2 == 0)
+            {
+                evenSteps += arr[c][a];
+            }
+        }
+    }
+
+    return evenSteps;
+}
+
+void print_all(int arr[][days], int weeks)
+{
+    int evenSteps = 0;
+
+    for (int c = 0; c < weeks; c++)
+    {
+
+        for (int a = 0; a < days; a++)
+        {
+            cout << "[" << arr[c][a] << "]" << " ";   
+        }
+            cout << "\n";
+    }
+}
+
+double total_pounds(int arr[][days], int weeks)
+{
+    double total_pounds = 0;
+
+    for (int c = 0; c < weeks; c++)
+    {
+        for (int a = 0; a < days; a++)
+        {
+            total_pounds += arr[c][a] * 0.05;
+        }
+    }
+
+    return total_pounds;
+}
+
+
+
+void sorting (int arr[][days], int weeks)
+{
+
+    // IF EVER NA GUSTO NI MAAM YUNG KUNG ANONG MAS MALIIT NA VALUE NA ROW SIYA YUNG UNA THEN PINAKAMALIKING
+    // ROW AY NASA HULI
+
+    // vector <int> arr2D;
+
+    // for (int c = 0; c < weeks; c++)
+    // {
+    //     for (int a = 0; a < days; a++)
+    //     {
+    //         arr2D.push_back(arr[c][a]);
+    //     }
+    // }
+
+    // int size = arr2D.size();
+
+    // for (int c = 0; c < size; c++)
+    // {
+    //     for (int a = c+1; a < size; a++)
+    //     {
+    //         if (arr2D[c] > arr2D[a])
+    //             {
+    //                 int temp  = arr2D[c];
+    //                 arr2D[c]  = arr2D[a];
+    //                 arr2D[a]  = temp;
+    //             }
+    //     }
+    // }
+
+    // int index = 0;
+
+    // for (int c = 0; c < weeks; c++)
+    // {
+    //     for (int a = 0; a < days; a++)
+    //     {
+    //         arr[c][a] = arr2D[index]; 
+    //         index++;
+    //     }
+    // }
+    
+    // for (int c = 0; c < weeks; c++)
+    // {
+    //     for (int a = 0; a < days; a++)
+    //     {
+    //         cout << arr[c][a] << " "; 
+    //     }
+    //         cout << "\n";
+    // }
+
+    for (int c = 0; c < weeks; c++)
+    {
+        for (int a = 0; a < days; a++)
+        {
+            for (int s = a+1; s < days; s++)
+            {
+                if (arr[c][a] > arr[c][s])
+                {
+                    int temp  = arr[c][a];
+                    arr[c][a] = arr[c][s];
+                    arr[c][s] = temp;
+                }
+            }
+        }
+    }
+
+    for (int c = 0; c < weeks; c++)
+    {
+        for (int a = 0; a < days; a++)
+        {
+            cout << arr[c][a] << " ";
+        }
+            cout << "\n";
+    }
+}
+
+int sequential_Search (int arr[][days], int weeks, int target)
+{
+    for (int c = 0; c < weeks; c++)
+    {
+        for (int a = 0; a < days; a++)
+        {
+            if (arr[c][a] == target)
+            {
+                cout << "found at index [" << c << "]" << "[" << a << "]";
+                return target;
+            }
+        }
+    }
+                cout << "not found!";
+    
+    return -1;
+}
+
+int binary_Search (int arr[][days], int weeks, int target)
+{
+    for (int c = 0; c < weeks; c++)
+    {
+        int low  = 0;
+        int high = days - 1;
+
+        while (low <= high)
+        {
+            int mid = (low + high) / 2;
+
+            if (arr[c][mid] == target)
+            {
+                cout << "Found at index [" << c << "][" << mid << "]" << endl;
+                return target;
+            }
+
+            else if (arr[c][mid] > target)
+            {
+                high = mid - 1;
+            }
+
+            else
+            {
+                low = mid + 1;
+            }
+        }
+    }
+
+    cout << "Not found!" << endl;
+
+    return -1;
+}
+
+
+int main ()
+{
+    system ("cls");
+
+    int choice, Weeks, Target;
+
+    do
+    {
+        cout << "\t\tMAIN MENU\n"; 
+
+         line ();
+
+        cout << "[1] Input Steps\n";
+        cout << "[2] Total Steps\n";
+        cout << "[3] Total Even Steps\n";
+        cout << "[4] Print All\n";
+        cout << "[5] Calculate Weight Loss\n";
+        cout << "[6] Sorting\n";
+        cout << "[7] Sequential Search\n";
+        cout << "[8] Binary Search\n";
+        cout << "[9] Exit\n\n";
+        cout << "Enter your choice: ";
+        cin  >> choice;
+
+        system ("cls");
+
+        switch (choice)
+        {
+            case 1: 
+                do
+                {
+                    system("cls");
+                    cout << "How many weeks do you want to input steps for: ";
+                    cin  >> Weeks;
+
+                    if (Weeks > 100 || Weeks < 1)
+                    {
+                        cout << "Invalid input! Please enter a number between 1 and 100." << endl;
+                        getch();
+                    }
+                    else
+                    {
+                        input_steps(arr, Weeks);
+                        getch();
+                        break;
+                    }
+
+                } while (true); 
+                break;
+
+            case 2: 
+                cout << "The sum of your total Steps is: " << total_steps(arr, Weeks);
+                getch();
+                break;
+
+            case 3: 
+                cout << "The sum of all your even Steps is: " <<  total_evenSteps(arr, Weeks);
+                getch();
+                break;
+
+            case 4: 
+                print_all(arr, Weeks);
+                getch();
+                break;
+
+            case 5: 
+                cout << "You lost approximately " << total_pounds(arr, Weeks) << " Pounds";
+                getch();
+                break;
+
+            case 6: 
+                sorting(arr, Weeks);
+                getch();
+                break;
+
+            case 7: 
+                cout << "Enter a target element (SEQUENTIAL SEARCH): ";
+                cin  >> Target;
+                sequential_Search(arr, Weeks, Target);
+                getch();
+                break;
+
+            case 8: 
+                cout << "Enter a target element (BINARY SEARCH): ";
+                cin  >> Target;
+                binary_Search(arr, Weeks, Target);
+                getch();
+                break;
+
+            case 9: 
+                Sleep(250); cout << "\033[1;50H Thank You";  
+                Sleep(250); cout << "\033[2;54H &";          
+                Sleep(250); cout << "\033[3;50H God Bless!";  
+                exit(0);
+
+            default: 
+                cout << "Invalid choice! Please choose from the available options.";
+                getch();
+        }
+
+        system ("cls");
+
+    } while (true);
+
+}
