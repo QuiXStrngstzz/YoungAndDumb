@@ -1,0 +1,982 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <Windows.h>
+#include <sstream>
+#include <conio.h>
+#include <algorithm>
+#include <chrono>
+#include <thread>
+#include <vector>   
+#define RESET "\033[0m"
+#define YELLOW "\033[33m"
+using namespace std;
+
+// Function to show a loading screen with a simple text-based animation.
+void showLoadingScreen() 
+{
+    const int totalFrames = 50;
+    const string animationFrames[] = {"/", "-", "\\", "|"}; // Customize the animation frames as needed
+    const int animationDelayMillis = 50; // Customize the animation speed as needed
+
+    // Set the cursor position to display the loading text.
+    cout << "\033[10;55H L O A D I N G: ";
+
+    // Loop through the animation frames to show loading animation.
+    for (int i = 0; i < totalFrames; ++i) {
+        cout << animationFrames[i % (sizeof(animationFrames) / sizeof(animationFrames[0]))];
+        cout.flush();
+
+        // Delay to control the animation speed.
+        this_thread::sleep_for(chrono::milliseconds(animationDelayMillis));
+
+        // Move the cursor back one position to overwrite the animation frame.
+        cout << "\b";
+    }
+
+    cout << " D O N E!" << endl;
+
+    Sleep(500);
+
+    system("cls");
+}
+
+// Simulate a time-consuming task and display a loading screen.
+void loading() 
+{
+    // Simulate a time-consuming task (replace this with your actual time-consuming operation)
+    const int timeConsumingTaskDurationSeconds = 0;
+    this_thread::sleep_for(chrono::seconds(timeConsumingTaskDurationSeconds));
+
+    // Show the loading screen
+    showLoadingScreen();
+}
+
+// Function to move the cursor to a specific position on the console screen.
+void gotoXY(int x, int y)
+{
+    // Create a COORD struct to hold the X and Y coordinates.
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+
+    // Get the standard output handle of the console.
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    // Set the cursor position to the specified coordinates.
+    SetConsoleCursorPosition(hConsole, coord);
+}
+
+// Function to draw a rectangular box on the console.
+void box() 
+{
+    for (int x = 25; x < 100; x++)
+    {
+        gotoXY(x,5);
+        cout << "-";
+    }
+
+    for (int y = 6; y < 17; y++)
+    {
+        gotoXY(24,y);
+        cout << "+";
+    }
+        
+    for (int y = 6; y < 17; y++)
+    {
+        gotoXY(101,y);
+        cout << "+";
+    }
+
+    for (int x = 25; x < 100; x++)
+    {
+        gotoXY(x,17);
+        cout << "-";
+    }
+}
+
+void box_subMenu() 
+{
+    for (int x = 25; x < 104; x++)
+    {
+        gotoXY(x,5);
+        cout << "-";
+    }
+
+    for (int y = 6; y < 17; y++)
+    {
+        gotoXY(24,y);
+        cout << "+";
+    }
+        
+    for (int y = 6; y < 17; y++)
+    {
+        gotoXY(105,y);
+        cout << "+";
+    }
+
+    for (int x = 25; x < 104; x++)
+    {
+        gotoXY(x,17);
+        cout << "-";
+    }
+}
+
+void search_box()
+{
+    cout << "\033[9;47H --------------------------- ";
+    cout << "\033[10;47H |                         |";
+    cout << "\033[11;47H --------------------------- ";
+}
+
+void choice_box() 
+{
+    for (int x = 26; x < 99; x++)
+    {
+        //Sleep(5);
+        gotoXY(x,10);
+        cout << "-";
+    }
+
+    for (int y = 11; y < 17; y++)
+    {
+        //Sleep(5);
+        gotoXY(48,y);
+        cout << "+";
+    }
+        
+    for (int y = 11; y < 17; y++)
+    {
+        //Sleep(5);
+        gotoXY(74,y);
+        cout << "+";
+    }
+
+    for (int x = 49; x < 73; x++)
+    {
+        //Sleep(5);
+        gotoXY(x,17);
+        cout << "-";
+    }
+}
+
+void info_box() 
+{
+    for (int x = 35; x < 99; x++)
+    {
+        gotoXY(x,2);
+        cout << "-";
+    }
+
+    for (int y = 3; y <= 17+6; y++)
+    {
+        gotoXY(35,y);
+        cout << "+";
+    }
+        
+    for (int y = 3; y <= 17+5; y++)
+    {
+        gotoXY(98,y);
+        cout << "+";
+    }
+
+    for (int x = 35; x < 99; x++)
+    {
+        gotoXY(x,23);
+        cout << "-";
+    }
+}
+
+void fill_up_box() 
+{
+    for (int x = 40; x < 82; x++)
+    {
+        gotoXY(x,3);
+        cout << "-";
+    }
+
+    for (int y = 4; y < 12; y++)
+    {
+        gotoXY(39,y);
+        cout << "+";
+    }
+        
+    for (int y = 4; y < 12; y++)
+    {
+        gotoXY(83,y);
+        cout << "+";
+    }
+
+    for (int x = 40; x < 82; x++)
+    {
+        gotoXY(x,12);
+        cout << "-";
+    }
+}
+
+void fill_up_box2() 
+{
+    for (int x = 35; x < 90; x++)
+    {
+        gotoXY(x,1);
+        cout << "-";
+    }
+
+    for (int y = 2; y < 15; y++)
+    {
+        gotoXY(34,y);
+        cout << "+";
+    }
+        
+    for (int y = 2; y < 15; y++)
+    {
+        gotoXY(91,y);
+        cout << "+";
+    }
+
+    for (int x = 35; x < 90; x++)
+    {
+        gotoXY(x,15);
+        cout << "-";
+    }
+}
+
+// transform text to uppercase for easy validation input
+void upper(string &word)
+{
+    transform(word.begin(), word.end(), word.begin(), ::toupper);
+}
+
+// input validation for sex
+bool sex_validation(const string& input) 
+{
+    string lowercaseInput = input;
+    transform(lowercaseInput.begin(), lowercaseInput.end(), lowercaseInput.begin(), ::toupper);
+
+    if (lowercaseInput == "FEMALE" || lowercaseInput == "MALE")
+    {
+        return true;
+    } 
+    
+    else 
+    {
+        system("cls");
+        cout << "\033[5;43H Please enter either \"FEMALE\" or \"MALE\".";
+        return false;
+    }
+}
+
+// validation for medical inputs
+bool med_validation(const string& input) 
+{
+    string lowercaseInput = input;
+    transform(lowercaseInput.begin(), lowercaseInput.end(), lowercaseInput.begin(), ::toupper);
+
+    if (lowercaseInput == "YES" || lowercaseInput == "NO") {
+        return true;
+    } 
+    
+    else 
+    {
+        system("cls");
+        cout << "\033[3;40H Invalid input. Please enter either \"YES\" or \"NO\".";
+        cout << "\033[4;40H - - - - - - - - - - - - - - - - - - - - - - - -";
+        return false;
+    }
+}
+
+// system password
+struct admin_credentials
+{
+    string password;
+};
+
+// Function to read and check system passwords.
+admin_credentials read_credential(const string& pass)
+{
+    ifstream file("system_password.txt"); // Open the file for reading
+    string line;
+    admin_credentials admin;
+    bool found = false;
+
+    // Read each line in the file
+    while (getline(file, line))
+    {
+        istringstream iss(line);
+        iss >> admin.password;
+
+        // Check if the ID matches
+        if (admin.password == pass) {
+            found = true;
+            break;
+        }
+    }
+
+    file.close(); // Close the file after processing
+
+    return admin;
+};
+
+// Function to save a new password to the "system_password.txt" file.
+void savePassword(const string& newPass)
+{
+    ofstream file("system_password.txt"); // Open the file for writing
+
+    // Write the new password to the file
+    file << newPass;
+
+    file.close(); // Close the file after writing
+}
+
+
+// Struct to represent information about a student.
+struct Student_info 
+{
+    string id;                   // Student ID
+    string full_name;            // Student's full name
+    string section_course;       // Section or course enrolled
+    string sex;                  // Student's sex (e.g., "Male" or "Female")
+    int age;                     // Student's age
+    string fever;                // Presence of fever (e.g., "Yes" or "No")
+    string cough;                // Presence of cough (e.g., "Yes" or "No")
+    string fatigue;              // Presence of fatigue (e.g., "Yes" or "No")
+    string diarrhea;             // Presence of diarrhea (e.g., "Yes" or "No")
+    string headaches;            // Presence of headaches (e.g., "Yes" or "No")
+    string dizziness;            // Presence of dizziness (e.g., "Yes" or "No")
+    string bodyaches;            // Presence of body aches (e.g., "Yes" or "No")
+    string sorethroat;           // Presence of sore throat (e.g., "Yes" or "No")
+    string shortness_breath;     // Presence of shortness of breath (e.g., "Yes" or "No")
+    string pre_existing_illness; // Information about pre-existing illnesses or conditions
+};
+
+// Function to output student information and health condition to "database.txt" file.
+void output_info(const Student_info& student)
+{
+    ofstream admin("database.txt", ios::app); // Open the file for appending
+    if (admin.is_open())
+    {
+        // Write student information to the file
+        admin << "ID:   " << student.id << endl;
+        admin << "NAME: " << student.full_name << endl;
+        admin << "SEX:  " << student.sex << endl;
+        admin << "AGE:  " << student.age << endl;
+        admin << "COURSE & SECTION: " << student.section_course << endl;
+        admin << "---------------------------------------------------------------------\n";
+
+        // Get the current time and print it in a specific format
+        time_t current_time = time(nullptr);
+        tm* timeLoc = localtime(&current_time);
+        admin << student.full_name << " CONDITION AS OF: " << put_time(timeLoc, "%B %d %Y %I:%M %p") << endl;
+
+        admin << "---------------------------------------------------------------------\n";
+        // Write student's health condition to the file
+        admin << "FEVER:      " << student.fever      << endl;
+        admin << "COUGH:      " << student.cough      << endl;
+        admin << "FATIGUE:    " << student.fatigue    << endl;
+        admin << "DIARRHEA:   " << student.diarrhea   << endl;
+        admin << "HEADACHES:  " << student.headaches  << endl;
+        admin << "DIZZINESS:  " << student.dizziness  << endl;
+        admin << "BODYACHES:  " << student.bodyaches  << endl;
+        admin << "SORETHROAT: " << student.sorethroat << endl;
+        admin << "SHORTNESS OF BREATH:  " << student.shortness_breath << endl;
+        admin << "PRE-EXISTING ILLNESS: " << student.pre_existing_illness << endl;
+        admin << "---------------------------------------------------------------------\n";
+        admin.close(); // Close the file after writing
+    }
+}
+
+// Function to display a student's information and health conditions in a formatted box.
+void display_infos(const Student_info& result)
+{
+    info_box(); // Assuming info_box() is a function that displays a box with the header
+
+    // Set the console cursor position and print student information
+    Sleep(15); cout << "\033[6;50H S T U D E N T'S  C O N D I T I O N S";
+    Sleep(15); cout << "\033[8;50H Name:                 " << result.full_name;
+    Sleep(15); cout << "\033[9;50H COURSE & SECTION:     " << result.section_course;
+    Sleep(15); cout << "\033[10;50H Sex:                 " << result.sex;
+    Sleep(15); cout << "\033[11;50H Age:                  " << result.age;
+    Sleep(15); cout << "\033[12;50H FEVER:                " << result.fever;
+    Sleep(15); cout << "\033[13;50H COUGH:                " << result.cough;
+    Sleep(15); cout << "\033[14;50H FATIGUE:              " << result.fatigue;
+    Sleep(15); cout << "\033[15;50H DIARRHEA:             " << result.diarrhea;
+    Sleep(15); cout << "\033[16;50H HEADACHES:            " << result.headaches;
+    Sleep(15); cout << "\033[17;50H DIZZINESS:            " << result.dizziness;
+    Sleep(15); cout << "\033[18;50H BODYACHES:            " << result.bodyaches;
+    Sleep(15); cout << "\033[19;50H SORETHROAT:           " << result.sorethroat;
+    Sleep(15); cout << "\033[20;50H SHORTNESS OF BREATH:  " << result.shortness_breath;
+    Sleep(15); cout << "\033[21;50H PRE-EXISTING ILLNESS: " << result.pre_existing_illness;
+    Sleep(15); cout << "\033[23;50H"; system("pause"); 
+}
+
+Student_info searchID(const string& Id)
+{
+    ifstream file("database.txt");
+    string line;
+    Student_info student;
+    bool found = false;  // Flag to track if ID is found
+
+    while (getline(file, line))
+    {
+        if (line.find("ID:") != string::npos) {
+            // If ID line is found, extract the ID and check for a match
+            string id = line.substr(4); // Extract the ID
+            id.erase(remove_if(id.begin(), id.end(), ::isspace), id.end()); // Remove spaces
+
+            if (id == Id) {
+                // ID matches, extract the student information
+                student.id = id;
+                getline(file, line); // Read "NAME: ..."
+                student.full_name = line.substr(6); // Extract the full name
+                getline(file, line); // Read "SEX: ..."
+                student.sex = line.substr(5); // Extract sex
+                getline(file, line); // Read "AGE: ..."
+                student.age = stoi(line.substr(5)); // Extract age
+                getline(file, line); // Read "COURSE & SECTION: ..."
+                student.section_course = line.substr(18); // Extract course & section
+
+                // Read condition details
+                while (getline(file, line) && line.find("PRE-EXISTING ILLNESS:") == string::npos) {
+                    size_t colonPos = line.find(":");
+                    if (colonPos != string::npos) {
+                        string condition = line.substr(colonPos + 1);
+                        condition.erase(remove_if(condition.begin(), condition.end(), ::isspace), condition.end());
+                        if (line.find("FEVER:") != string::npos)
+                            student.fever = condition;
+                        else if (line.find("COUGH:") != string::npos)
+                            student.cough = condition;
+                        else if (line.find("FATIGUE:") != string::npos)
+                            student.fatigue = condition;
+                        else if (line.find("DIARRHEA:") != string::npos)
+                            student.diarrhea = condition;
+                        else if (line.find("HEADACHES:") != string::npos)
+                            student.headaches = condition;
+                        else if (line.find("DIZZINESS:") != string::npos)
+                            student.dizziness = condition;
+                        else if (line.find("BODYACHES:") != string::npos)
+                            student.bodyaches = condition;
+                        else if (line.find("SORETHROAT:") != string::npos)
+                            student.sorethroat = condition;
+                        else if (line.find("SHORTNESS OF BREATH:") != string::npos)
+                            student.shortness_breath = condition;
+                    }
+                }
+
+                // Read pre-existing illness
+                size_t colonPos = line.find(":");
+                if (colonPos != string::npos) {
+                    student.pre_existing_illness = line.substr(colonPos + 1);
+                    student.pre_existing_illness.erase(remove_if(student.pre_existing_illness.begin(), student.pre_existing_illness.end(), ::isspace), student.pre_existing_illness.end());
+                }
+
+                found = true;
+                break;
+            }
+        }
+    }
+
+    file.close();  // Close the file after processing
+
+    if (found) 
+    {
+        return student;
+    }
+    
+    else 
+    {
+        return Student_info();  // Return an empty student object
+    }
+}
+
+void admin_side()
+{
+    int choice;
+    string newPass;
+    do
+    {
+        system("cls");
+        box_subMenu(); // Display a decorative box around the submenu
+        Sleep(15); cout << "\033[8;50H W  E  L  C  O  M  E    A  D  M  I N";
+        Sleep(15); cout << "\033[10;27H -----------------------------------------------------------------------------";
+        Sleep(15); cout << "\033[12;50H [1] SEARCH ID";
+        Sleep(15); cout << "\033[13;50H [2] VIEW MEDICAL RECORDS";
+        Sleep(15); cout << "\033[14;50H [3] EDIT MEDICAL RECORDS";
+        Sleep(15); cout << "\033[15;50H [4] CHANGE SYSTEM PASSWORD";
+        Sleep(15); cout << "\033[16;50H [5] LOG OUT";
+        Sleep(15); cout << "\033[17;50H CHOICE: ";
+        cin  >> choice;
+        system("Cls");
+        
+        switch(choice)
+        {
+            case 1:
+            {
+                string Id;
+                search_box();
+                cout << "\033[10;50H Enter ID to search: ";
+                cin >> Id;
+                system("cls");
+                
+                 // Call the searchID function to find the student information based on the provided ID
+                Student_info result = searchID(Id); 
+                
+                // Check if the search result is empty (ID not found) and inform the user accordingly
+                if (result.id.empty()) 
+                {
+                    cout << "\033[10;49H ID not found!";
+                    cout << "\033[11;50H"; system("pause");
+                } 
+
+                 // Display the found student information
+                else 
+                {
+                    display_infos(result);
+                }
+            }
+            break;
+
+            case 2:
+            {
+                fstream file("database.txt", ios::in); // Open the "database.txt" file for reading  
+                string line;
+
+                 // Read and display each line from the file
+                while (getline(file, line)) {
+                    Sleep(15); cout << "\t \t \t \t" << line << endl;
+                }
+                getch();
+                file.close();
+                break;
+            }
+            
+            
+            case 3:
+            {
+                // On Windows (_WIN32), open "database.txt" file using the default program for editing
+                #ifdef _WIN32
+                    string fileName = "database.txt";
+                    string command = "start " + fileName;
+                    int result = system(command.c_str());
+                #endif
+                break;
+            }
+            
+
+            case 4:
+            {
+                string confirmation;
+
+              // Loop to get a new system password from the admin and confirm it
+              do 
+              {
+                    cout << "\033[10;50H ENTER NEW SYSTEM PASSWORD: ";
+                    cin >> newPass;
+                    system("cls");
+
+                
+                    cout << "\033[10;50H RE-TYPE PASSWORD: ";
+                    cin  >> confirmation;
+                    system("cls");
+
+                    if(confirmation == newPass)
+                    {
+                        break;
+                    }
+
+                    else
+                    {
+                        cout << "\033[10;59H MISMATCH PASSWORD!\n\n";
+                        cout << "\033[12;53H"; system("pause");
+                        system("cls");
+                    }
+
+                }while(true);
+
+                // Save the new password to the system
+                savePassword(newPass);
+                system("cls");
+
+                cout << "\033[10;50H SUCCESFULLY CHANGED!";
+                for (int l = 0, x = 50; l < 20; l++)
+                {
+                    gotoXY(x, 10); cout << (char)219; Sleep(100);
+                    x++;
+                }
+                system("cls");
+                return;
+            }
+            break;
+
+            case 5:
+            {
+                system("Cls");
+
+                cout << "\033[10;50H LOGGING OUT PLEASE WAIT";
+                for (int l = 0, x = 50; l < 20; l++)
+                {
+                        gotoXY(x, 10); cout << (char)219; Sleep(100);
+                    x++;
+                }
+                system("Cls");
+                return;
+            }
+            break;
+            
+             // Inform the user about an invalid choice
+            default: 
+                     box_subMenu();
+                     cout << "\033[10;49H I N V A L I D   C H O I C E";
+                     cout << "\033[12;50H";
+                     system("pause");
+        }
+        system("cls");
+    }while (true);
+}
+
+void displayTextLetterByLetter(const string& text, int delayMillis) 
+{
+    // Loop through each character in the input text
+    for (char c : text) 
+    {
+        // Output the current character to the console
+        cout << c;
+
+        // Flush the output stream to ensure immediate display of the character
+        cout.flush();
+
+        // Pause execution for the specified delay time between characters
+        this_thread::sleep_for(chrono::milliseconds(delayMillis));
+    }
+}
+
+void intro()
+{
+    ifstream file("intro.txt"); // Open the file "intro.txt" for reading
+    string line; // String variable to hold each line read from the file
+
+    // Loop through each line in the file
+    while (getline(file, line)) {
+        // Call the displayTextLetterByLetter function to display each line character by character with a delay of 10 milliseconds
+        displayTextLetterByLetter(line, 10);
+        cout << endl; // Move to the next line after displaying the whole line
+    }  
+    
+    file.close(); // Close the file after processing
+    Sleep(500);
+}
+
+int main ()
+{
+    system("color F0");
+    system("cls");
+    loading();
+    intro();
+    
+    int choice;
+
+    do
+    {
+        start:
+        system("cls");
+        box();
+        choice_box();
+        
+        Sleep(50); cout << "\033[8;44H M E D I C A L   I N F O R M A T I O N";
+        Sleep(50); cout << "\033[10;56H S Y S T E M";
+        Sleep(50); cout << "\033[12;56H Enter As";
+        Sleep(50); cout << "\033[13;55H -----------";
+        Sleep(50); cout << "\033[14;55H [1] STUDENT";
+        Sleep(50); cout << "\033[15;55H [2] ADMIN";
+        Sleep(50); cout << "\033[16;55H [3] EXIT";
+        Sleep(50); cout << "\033[17;55H : ";
+        cin  >> choice;
+        system("cls");
+
+        switch(choice)
+        {
+            case 1:
+            {
+                Student_info info;
+                fill_up_box();
+
+                cout << "\033[5;45H F I L L  T H E  F O L L O W I N G";
+                cout << "\033[6;44H ------------------------------------";
+                cout << "\033[7;44H ID: ";
+                cin  >> info.id;
+                cin.ignore();
+                
+                if (searchID(info.id).id == info.id) 
+                {
+                    system("cls");
+                    cout << "\033[13;50H  ID already exists!";
+                    cout << "\033[15;47H" << system("pause");
+                    break;
+                }
+
+                cout << "\033[8;44H NAME (SN & FN): ";
+                getline(cin, info.full_name);
+                upper(info.full_name);
+
+                cout << "\033[9;44H Course & Section: ";
+                getline(cin, info.section_course); 
+                upper(info.section_course);
+
+                cout << "\033[10;44H Sex: ";
+                cin  >> info.sex;
+                upper(info.sex);
+
+                while(!sex_validation(info.sex))
+                {
+                    fill_up_box();
+                    cout << "\033[10;44H SEX: ";
+                    cin  >> info.sex;
+                    upper(info.sex);
+                }
+                
+                cout << "\033[11;44H Age: ";
+                cin  >> info.age ;
+                
+                system("Cls");
+
+                cout << "\033[13;37H PLEASE ANSWER HONESTLY ACCORDING TO YOUR CURRENT CONDITION";
+                cout << "\033[15;38H"; system("pause");
+                system("Cls");
+
+                fill_up_box2();
+                cout << "\033[3;40H ENTER YES/NO ONLY EXCEPT FOR EXISTING ILLNESS";
+                cout << "\033[4;40H - - - - - - - - - - - - - - - - - - - - - - - -";
+
+                cout << "\033[5;39H FEVER: ";
+                cin >> info.fever;
+                upper(info.fever);
+                
+                while (!med_validation(info.fever)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[5;39H FEVER: ";
+                    cin  >> info.fever;
+                    upper(info.fever);
+                }
+
+                cout << "\033[6;39H COUGH: ";
+                cin >> info.cough;
+                upper(info.cough);
+
+                while (!med_validation(info.cough)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[6;39H COUGH: ";
+                    cin  >> info.cough;
+                    upper(info.cough);
+                }
+                
+                cout << "\033[7;39H FATIGUE: ";
+                cin  >> info.fatigue;
+                upper(info.fatigue);
+                
+                while (!med_validation(info.fatigue)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[7;39H FATIGUE: ";
+                    cin  >> info.fatigue;
+                    upper(info.fatigue);
+                }
+
+                cout << "\033[8;39H DIARRHEA: ";
+                cin  >> info.diarrhea;
+                upper(info.diarrhea);
+                
+                while (!med_validation(info.diarrhea)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[8;39H DIARRHEA: ";
+                    cin  >> info.diarrhea;
+                    upper(info.diarrhea);
+                }
+
+                cout << "\033[9;39H HEADACHES: ";
+                cin >> info.headaches;
+                upper(info.headaches);
+                
+                while (!med_validation(info.headaches)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[9;39H HEADACHES: ";
+                    cin  >> info.headaches;
+                    upper(info.headaches);
+                }
+
+                cout << "\033[10;39H DIZZNINESS: ";
+                cin >> info.dizziness;
+                upper(info.dizziness);
+
+                while (!med_validation(info.dizziness)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[10;39H DIZZNINESS: ";
+                    cin  >> info.dizziness;
+                    upper(info.dizziness);
+                }
+                
+                cout << "\033[11;39H BODYACHES: ";
+                cin  >> info.bodyaches;
+                upper(info.bodyaches);
+                
+                while (!med_validation(info.bodyaches)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[11;39H  BODYACHES: ";
+                    cin  >> info.bodyaches;
+                    upper(info.bodyaches);
+                }
+
+                cout << "\033[12;39H SORETHROAT: ";
+                cin  >> info.sorethroat;
+                upper(info.sorethroat);
+
+                while (!med_validation(info.sorethroat)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[12;39H SORETHROAT: ";
+                    cin  >> info.sorethroat;
+                    upper(info.sorethroat);
+                }
+
+                cout << "\033[13;39H SHORTNESS OF BREATH: ";
+                cin  >> info.shortness_breath;
+                upper(info.shortness_breath);
+
+                while (!med_validation(info.shortness_breath)) 
+                {
+                    fill_up_box2();
+                    cout << "\033[13;39H SHORTNESS OF BREATH: ";
+                    cin  >> info.shortness_breath;
+                    upper(info.shortness_breath);
+                }
+                
+                cout << "\033[14;39H PRE-EXISTING ILLNESS: ";
+                cin  >> info.pre_existing_illness;
+                upper(info.pre_existing_illness);
+
+                system("cls");
+
+                cout << "\033[13;32H THANK YOU FOR FILLING UP \"" << info.full_name << "\" PLEASE DO REMEMBER YOUR ID " << "\"" << info.id << "\"";
+                cout << "\033[15;33H"; system("pause");
+                system("Cls");
+                output_info(info); // pass the info to the output_info function so all the info can be stored in database and used
+
+            }
+            break;
+
+            case 2:
+            {
+                int pin;
+                string pass;
+
+                for (int c = 0; c < 3; c++) 
+                {
+                    // Clear the screen and prompt the user for the password.
+                    system("cls");
+                    cout << "\033[10;50H ENTER A PASSWORD: ";
+
+                    char ch; // Hiding Password
+                    pass.clear(); // Reset the pass variable for each attempt.
+
+                    // Read the password character by character.
+                    while ((ch = _getch()) != '\r') 
+                    {
+                        // Handle the backspace character.
+                        if (ch == '\b') 
+                        {
+                            if (!pass.empty()) 
+                            {
+                                // Move the cursor back, overwrite the last character with a space, and move the cursor back again.
+                                cout << "\b \b";
+                                pass.pop_back();
+                            }
+                        } 
+
+                        // Append the character to the password.
+                        else 
+                        {
+                            pass += ch;
+                            cout << "*";
+                        }
+                    }
+
+                    // Check if the entered password matches the stored admin password.
+                    admin_credentials admin = read_credential(pass);
+                    if (admin.password == pass) 
+                    {
+                        // Clear the screen and show a loading message.
+                        system("cls");
+                        cout << "\033[10;50H LOGGING IN PLEASE WAIT";
+
+                        // Simulate loading by displaying a progress bar.
+                        for (int l = 0, x = 50; l < 20; l++) 
+                        {
+                            Sleep(100);
+                            gotoXY(x, 10);
+                            cout << (char)219;
+                            x++;
+                        }
+
+                        // Successful login, break out of the loop.
+                        break;
+                    } 
+                    
+                    else 
+                    {
+                        // Clear the screen and display invalid credentials message.
+                        system("cls");
+                        cout << "\033[10;49H INVALID CREDENTIALS!";
+                        cout << "\033[12;50H";
+                        system("pause");
+
+                        // Check if it's the last attempt (3rd attempt).
+                        if (c == 2) 
+                        {
+                            // Display blocked message and exit the program.
+                            system("cls");
+                            cout << "\033[10;49H YOU'VE BEEN BLOCKED: TRY AGAIN LATER";
+                            return 0;
+                        }
+                    }
+                }
+
+                
+                admin_side();
+                break;
+            }
+
+            case 3:
+            {
+                cout << "\033[1;50H THANK YOU FOR USING OUR SYSTEM (:";
+                cout << endl;
+                return 0;
+            }
+            break;
+
+            default:
+            {
+                box();
+                choice_box();
+                cout << "\033[12;56H Enter As";
+                cout << "\033[13;55H -----------";
+                cout << "\033[14;55H [1] STUDENT";
+                cout << "\033[15;55H [2] ADMIN";
+                cout << "\033[16;55H [3] EXIT";
+                cout << "\033[17;55H : ";
+                cout << "\033[15;30H I N V A L I D ";
+                cout << "\033[15;82H C H O I C E ";
+
+                cout << "\033[8;46H" << system("pause");
+            } 
+            system("Cls");
+        }
+
+    }while(true);
+
+    // Indicate successful execution of the program by returning 0
+    return 0;
+}
